@@ -25,14 +25,14 @@ const PostList: React.FC<PostListProps> = ({ posts, deletePost }) => {
   return (
     <div style={{ padding: "30px" }}>
       <h1>Posts:</h1>
-      <ul>
+      <div>
         {posts.map((post) => (
-          <li key={post.id} style={{ padding: "10px" }}>
+          <div key={post.id} style={{ padding: "10px",whiteSpace: "pre-wrap",border: '1px solid gray', margin: "10px" }}>
             {post.texto} - {formatDate(post.data_criacao)}
             <button onClick={() => deletePost(post.id)}>Delete</button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

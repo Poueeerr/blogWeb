@@ -13,7 +13,7 @@ const PostInput: React.FC<PostInputProps> = ({ data, setData, sendDataToAPI }) =
         value={data}
         placeholder="Digite seu texto"
         onChange={(e) => setData(e.target.value)}
-        style={{ resize: "none", height: "100px", width: "400px" }}
+        style={{ resize: "none", height: "100px", width: "400px", whiteSpace: 'pre-wrap' }}
       />
       <br />
       <button onClick={sendDataToAPI}>POST</button>
