@@ -4,6 +4,7 @@ import PostInput from "./components/PostInput";
 import PostList from "./components/PostList";
 
 interface Post {
+  id: string; 
   texto: string;
   data_criacao: string;
 }
@@ -15,23 +16,30 @@ const App = () => {
   const fetchAPI = async () => {
     try {
       const response = await axios.get("http://localhost:3003/api");
-      setPosts(response.data);
+      setPosts(response.data); 
     } catch (error) {
       console.error("Error fetching data from API:", error);
     }
   };
 
   const sendDataToAPI = async () => {
-    const myData = { data };
     try {
-      const response = await axios.post("http://localhost:3003/api", myData);
-      console.log(response);
-      setData("");
-
-      const newPost = { texto: data, data_criacao: new Date().toISOString() };
+      const response = await axios.post("http://localhost:3003/api", { texto: data });
+      const newPost: Post = response.data; 
       setPosts((prevPosts) => [...prevPosts, newPost]);
+      setData(""); 
     } catch (error) {
       console.error("Error sending data to API:", error);
+    }
+  };
+
+  // Função para deletar um post
+  const deletePost = async (id: string) => {
+    try {
+      await axios.delete(`http://localhost:3003/api/${id}`);
+      setPosts((prevPosts) => prevPosts.filter((post) => post.id !== id));
+    } catch (error) {
+      console.error("Error deleting post:", error);
     }
   };
 
@@ -42,7 +50,7 @@ const App = () => {
   return (
     <div>
       <PostInput data={data} setData={setData} sendDataToAPI={sendDataToAPI} />
-      <PostList posts={posts} />
+      <PostList posts={posts} deletePost={deletePost} />
     </div>
   );
 };
