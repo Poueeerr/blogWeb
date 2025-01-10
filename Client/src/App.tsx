@@ -33,7 +33,21 @@ const App = () => {
     }
   };
 
-  // Função para deletar um post
+  const updatePost = async (id: string, newText: string) => {
+    try {
+      const response = await axios.put(`http://localhost:3003/api/${id}`, { texto: newText });
+      const updatedPost: Post = response.data;
+  
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => (post.id === id ? updatedPost : post))
+      );
+    } catch (error) {
+      console.error("Error updating post:", error);
+    }
+  };
+  
+
+
   const deletePost = async (id: string) => {
     try {
       await axios.delete(`http://localhost:3003/api/${id}`);
@@ -43,6 +57,8 @@ const App = () => {
     }
   };
 
+  
+
   useEffect(() => {
     fetchAPI();
   }, []);
@@ -50,7 +66,7 @@ const App = () => {
   return (
     <div>
       <PostInput data={data} setData={setData} sendDataToAPI={sendDataToAPI} />
-      <PostList posts={posts} deletePost={deletePost} />
+      <PostList posts={posts} deletePost={deletePost} updatePost={updatePost}/>
     </div>
   );
 };

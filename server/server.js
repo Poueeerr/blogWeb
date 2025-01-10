@@ -17,6 +17,26 @@ app.get("/api", async (req, res) => {
   }
 });
 
+app.put('/api/:id', async (req, res) => {
+  const { id } = req.params;
+  const { texto } = req.body;
+  console.log(texto)
+  try {
+    const result = await db.query(
+      'UPDATE clients SET texto = $1 WHERE id = $2 RETURNING *',
+      [texto, id]
+    );
+    if (result.rowCount === 0) {
+      return res.status(404).send('Post not found');
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).send('Server error');
+  }
+});
+
+
 app.post("/api", async (req, res) => {
   const { texto } = req.body; 
   if (!texto) {
