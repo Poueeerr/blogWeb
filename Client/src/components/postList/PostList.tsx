@@ -37,13 +37,22 @@ const PostList: React.FC<PostListProps> = ({ posts, deletePost, updatePost }) =>
     setEditingPostId(null);
   };
 
+  const renderTextWithLineBreaks = (text: string) => {
+    return text.split("\n").map((line, index) => (
+      <span key={index}>
+        {line}
+        <br />
+      </span>
+    ));
+  };
+
   return (
     <div style={{ padding: "30px" }}>
       <h1 className={styles.title}>Posts:</h1>
       <div className={styles.container}>
         {posts.map((post) => (
-          <div key={post.id} className={styles.postContainer}>
-          {editingPostId === post.id ? (
+          <div key={post.id}>
+            {editingPostId === post.id ? (
               <div className={styles.postsEditContainer}>
                 <input
                   type="text"
@@ -54,10 +63,12 @@ const PostList: React.FC<PostListProps> = ({ posts, deletePost, updatePost }) =>
                 <button onClick={() => setEditingPostId(null)}>Cancel</button>
               </div>
             ) : (
-              <div >
-                {post.texto} - {formatDate(post.data_criacao)}
-                <button onClick={() => handleEdit(post.id, post.texto)} style={{margin: '5px'}}>Edit</button>
-                <button onClick={() => deletePost(post.id)} style={{margin: '5px'}}>Delete</button>
+              <div className={styles.postContainer}>
+                <div style={{ whiteSpace: "pre-wrap" }}>
+                  {renderTextWithLineBreaks(post.texto)} - {formatDate(post.data_criacao)}
+                </div>
+                <button onClick={() => handleEdit(post.id, post.texto)} style={{ margin: '5px' }}>Edit</button>
+                <button onClick={() => deletePost(post.id)} style={{ margin: '5px' }}>Delete</button>
               </div>
             )}
           </div>
