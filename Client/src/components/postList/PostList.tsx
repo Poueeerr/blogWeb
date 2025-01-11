@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import styles from "./PostLists.module.css"
 
 interface Post {
   id: string;
@@ -38,12 +39,12 @@ const PostList: React.FC<PostListProps> = ({ posts, deletePost, updatePost }) =>
 
   return (
     <div style={{ padding: "30px" }}>
-      <h1>Posts:</h1>
-      <div>
+      <h1 className={styles.title}>Posts:</h1>
+      <div className={styles.container}>
         {posts.map((post) => (
-          <div key={post.id} style={{ padding: "10px", whiteSpace: "pre-wrap", border: '1px solid gray', margin: "10px" }}>
-            {editingPostId === post.id ? (
-              <div>
+          <div key={post.id} className={styles.postContainer}>
+          {editingPostId === post.id ? (
+              <div className={styles.postsEditContainer}>
                 <input
                   type="text"
                   value={editText}
@@ -53,10 +54,10 @@ const PostList: React.FC<PostListProps> = ({ posts, deletePost, updatePost }) =>
                 <button onClick={() => setEditingPostId(null)}>Cancel</button>
               </div>
             ) : (
-              <div>
+              <div >
                 {post.texto} - {formatDate(post.data_criacao)}
-                <button onClick={() => handleEdit(post.id, post.texto)}>Edit</button>
-                <button onClick={() => deletePost(post.id)}>Delete</button>
+                <button onClick={() => handleEdit(post.id, post.texto)} style={{margin: '5px'}}>Edit</button>
+                <button onClick={() => deletePost(post.id)} style={{margin: '5px'}}>Delete</button>
               </div>
             )}
           </div>

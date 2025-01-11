@@ -1,4 +1,5 @@
 import React from "react";
+import styles from "./PostInput.module.css";
 
 interface PostInputProps {
   data: string;
@@ -8,15 +9,16 @@ interface PostInputProps {
 
 const PostInput: React.FC<PostInputProps> = ({ data, setData, sendDataToAPI }) => {
   return (
-    <div>
+    <div className={styles.container}>
       <textarea
+        className={styles.textarea}
         value={data}
         placeholder="Digite seu texto"
         onChange={(e) => setData(e.target.value)}
-        style={{ resize: "none", height: "100px", width: "400px", whiteSpace: 'pre-wrap' }}
       />
-      <br />
-      <button onClick={sendDataToAPI}>POST</button>
+      <button className={styles.button} onClick={sendDataToAPI}>
+        POST
+      </button>
     </div>
   );
 };
